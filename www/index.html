@@ -4,13 +4,71 @@
 	</head>
 	<body style="background-color: #000000; color: #FFFFFF; font-family: Consolas; font-size: 24pt; margin: 10px;">
 		<div style="margin: 10px">/dev/zero</div>
-		<!--<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;">
-		</canvas>-->
-		<div style="position: absolute; top: 100px; bottom: 0px; left: 0px; right: 50%; display: block;">
+		<canvas id="myCanvas" width="100%" height="15"></canvas>
+		<script>
+			window.requestAnimFrame = (function(callback) {
+				return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+				function(callback) {
+				  window.setTimeout(callback, 1000 / 60);
+				};
+			})();
+
+			function drawRectangle(myRectangle, context) {
+				context.beginPath();
+				context.rect(myRectangle.x, myRectangle.y, myRectangle.width, myRectangle.height);
+				context.fillStyle = '#FF0000';
+				context.fill();
+				context.lineWidth = myRectangle.borderWidth;
+				context.strokeStyle = 'black';
+				context.stroke();
+			}
+			
+			function animate(myRectangle, canvas, context, startTime) {
+				// update
+				var time = (new Date()).getTime() - startTime;
+				var linearSpeed = 100;
+				// pixels / second
+				var newX = linearSpeed * time / 1000;
+
+				if (newX < canvas.width - myRectangle.width - myRectangle.borderWidth / 2) {
+					myRectangle.x = newX;
+				}
+
+				// clear
+				context.clearRect(0, 0, canvas.width, canvas.height);
+				drawRectangle(myRectangle, context);
+
+				// request new frame
+				requestAnimFrame(function() {
+					animate(myRectangle, canvas, context, startTime);
+				});
+			}
+			
+			var canvas = document.getElementById('myCanvas');
+			var context = canvas.getContext('2d');
+
+			var myRectangle = {
+				x: 0,
+				y: 0,
+				width: 100,
+				height: 15,
+				borderWidth: 0
+			};
+
+			drawRectangle(myRectangle, context);
+
+			// wait one second before starting animation
+			setTimeout(function() {
+				var startTime = (new Date()).getTime();
+				animate(myRectangle, canvas, context, startTime);
+			}, 1000);
+		</script>
+		<div style="position: absolute; top: 100px; bottom: 20px; left: 0px; right: 50%; display: block;">
 			<iframe src="page1.html" width="100%" height="100%" style="border-style: none;"></iframe>
 		</div>
-		<div style="position: absolute; top: 100px; bottom: 0px; left: 50%; right: 20px; display: block;">
+		<div style="position: absolute; top: 100px; bottom: 20px; left: 50%; right: 20px; display: block;">
 			<iframe src="page2.html" width="100%" height="100%" style="border-style: none;"></iframe>
 		</div>
+		<div style="color: #FFFFFF; font-size: 10pt; position: absolute; bottom: 2px; right: 20px;">IP: <!--#exec cmd="ip addr show dev eth0 | grep inet | cut -f6 -d' '" --></div>
 	</body>
 </html>
