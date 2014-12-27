@@ -21,6 +21,7 @@
 			];
 			
 			var canvasWidth = 500;
+			var canvasHeight = 10;
 			
 			(function() {
 				for (var i = 0; i < barCount; i++) {
@@ -84,7 +85,7 @@
 				canvas = document.getElementById("myCanvas");
 				context = canvas.getContext("2d");
 				
-				context.clearRect(0, 0, canvasWidth, 170);
+				context.clearRect(0, 0, canvasWidth, canvasHeight);
 				
 				for (var i = 0; i < bars.length; i++) {
 					context.fillStyle = bars[i].c;
