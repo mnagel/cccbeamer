@@ -1,5 +1,16 @@
 <html>
-	<body style="text-align:center">
-		<img src="chart.png" height="400" width="400" style="margin-top: 100px;" />
-	</body>
+<head>
+	<script>
+		setInterval(function() {
+			if (document.getElementById("invertimg").style.webkitFilter == "") {
+				document.getElementById("invertimg").style.webkitFilter = "invert(100%)";
+			} else {
+				document.getElementById("invertimg").style.webkitFilter = "";
+			}
+		}, 60000);
+	</script>
+</head>
+<body style="text-align:center">
+	<img id="invertimg" src="chart.png" height="400" width="400" style="margin-top: 100px;" />
+</body>
 </html>
