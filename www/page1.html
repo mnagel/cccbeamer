@@ -2,12 +2,19 @@
 <head>
 	<script>
 		setInterval(function() {
-			if (document.getElementById("invertimg").style.webkitFilter == "") {
-				document.getElementById("invertimg").style.webkitFilter = "invert(100%)";
-			} else {
-				document.getElementById("invertimg").style.webkitFilter = "";
+			var oldTransform = document.getElementById("invertimg").style.webkitTransform;
+			var newTransform = "";
+			if (oldTransform == "") {
+				newTransform = "rotate(90deg)";
+			} else if (oldTransform == "rotate(90deg)") {
+				newTransform = "rotate(180deg)";
+			} else if (oldTransform == "rotate(180deg)") {
+				newTransform = "rotate(270deg)";
+			} else if (oldTransform == "rotate(270deg)") {
+				newTransform = "";
 			}
-		}, 60000);
+			document.getElementById("invertimg").style.webkitTransform = newTransform;
+		}, 1000);
 	</script>
 </head>
 <body style="text-align:center">
