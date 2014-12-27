@@ -31,10 +31,16 @@
 		var canvasWidth = 500;
 		var canvasHeight = 50;
 		
+		var textPosSrc = 0;
+		var textPos = 0;
+		
 		(function() {
 			for (var i = 0; i < barCount; i++) {
 				bars.push({x:(Math.random() * canvasWidth * 10), w:(Math.random() * (maxWidth - minSpeed) + minSpeed), s:(Math.random() * (maxSpeed - minSpeed) + minSpeed), d:(Math.random() > 0.5 ? 1 : -1), c:colors[Math.floor(Math.random() * colors.length)]});
 			}
+			
+			textPosSrc++;
+			textPos = sin(textPosSrc * (1./600.)) * 100 + 100;
 		
 			canvas = document.getElementById("myCanvas");
 			context = canvas.getContext("2d");
@@ -58,7 +64,7 @@
 			reqAnimFrame(animate);
 
 			for (var i = 0; i < bars.length; i++) {
-				bars[i].x += bars[i].d * bars[i].s;
+				bars[i].x += bars[i].d * bars[i].s * (1 - abs(bars[i].x - textPos) / 1000.);
 				bars[i].w += (Math.random() > 0.5 ? 1 : -1);
 				bars[i].s += (Math.random() > 0.5 ? 1 : -1);
 
@@ -103,7 +109,7 @@
 			
 			context.fillStyle = "#FFFFFF";
 			context.font = "28px Courier New";
-			context.fillText("/dev/zero", ((new Date()).getTime() / 100 % 300), 30);
+			context.fillText("/dev/zero", textPos, 30);
 		}
 
 		animate();
