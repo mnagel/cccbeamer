@@ -1,20 +1,24 @@
 <html>
 <head>
 	<script>
-		setInterval(function() {
-			var oldTransform = document.getElementById("invertimg").style.webkitTransform;
-			var newTransform = "";
-			if (oldTransform == "") {
-				newTransform = "rotate(90deg)";
-			} else if (oldTransform == "rotate(90deg)") {
-				newTransform = "rotate(180deg)";
-			} else if (oldTransform == "rotate(180deg)") {
-				newTransform = "rotate(270deg)";
-			} else if (oldTransform == "rotate(270deg)") {
-				newTransform = "";
-			}
-			document.getElementById("invertimg").style.webkitTransform = newTransform;
-		}, 10000);
+		function animate() {
+			reqAnimFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame;
+			reqAnimFrame(animate);
+
+			draw();
+		}
+
+		function draw() {
+			var invertimg = document.getElementById("invertimg");
+			var f = 0.2;
+			var r = 25;
+			var x = Math.floor(20 * Math.cos((new Date()).getTime() * f / 1000 * 3.141));
+			var y = Math.floor(20 * Math.sin((new Date()).getTime() * f / 1000 * 3.141));
+			var top = 100;
+			invertimg.style.margin = (y + top) + "px " + -x + "px " + -y + "px " + x + "px";
+		}
+
+		animate();
 	</script>
 </head>
 <body style="text-align:center">
