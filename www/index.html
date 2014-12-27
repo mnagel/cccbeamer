@@ -38,9 +38,6 @@
 			for (var i = 0; i < barCount; i++) {
 				bars.push({x:(Math.random() * canvasWidth * 10), w:(Math.random() * (maxWidth - minSpeed) + minSpeed), s:(Math.random() * (maxSpeed - minSpeed) + minSpeed), d:(Math.random() > 0.5 ? 1 : -1), c:colors[Math.floor(Math.random() * colors.length)]});
 			}
-			
-			textPosSrc++;
-			textPos = sin(textPosSrc * (1./600.)) * 100 + 100;
 		
 			canvas = document.getElementById("myCanvas");
 			context = canvas.getContext("2d");
@@ -60,11 +57,14 @@
 		})();
 		
 		function animate() {
+			textPosSrc++;
+			textPos = Math.cos(textPosSrc * 0.01) * canvasWidth / 5 + canvasWidth / 5;
+			
 			reqAnimFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame;
 			reqAnimFrame(animate);
 
 			for (var i = 0; i < bars.length; i++) {
-				bars[i].x += bars[i].d * bars[i].s * (1 - abs(bars[i].x - textPos) / 1000.);
+				bars[i].x += bars[i].d * bars[i].s + Math.abs(bars[i].x - textPos) / 1000;
 				bars[i].w += (Math.random() > 0.5 ? 1 : -1);
 				bars[i].s += (Math.random() > 0.5 ? 1 : -1);
 
